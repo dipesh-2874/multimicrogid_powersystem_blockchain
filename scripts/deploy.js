@@ -1,4 +1,4 @@
-const {ether} = require("hardhat");
+const { ethers } = require("hardhat");
 
 async function main() {
     const [owner, seller1, seller2, buyer1, buyer2] = await ethers.getSigners();
@@ -8,39 +8,45 @@ async function main() {
     // deploy ETK token
     const ETK = await ethers.getContractFactory("EnergyToken");
     const etk = await ETK.deploy(owner.address);
-    await etk.waitForDeployment();
+    await etk.deployed();
 
-    console.log("EnergyToken:", await etk.getAddress());
+    console.log("EnergyToken:", etk.address);
 
     // deploy MicrogridRegistry
     const MicrogridRegistry = await ethers.getContractFactory("MicrogridRegistry");
-    const registry = await MicrogridRegistry.deploy(owner.address, await etk.getAddress());
-    await registry.waitForDeployment();
+    const registry = await MicrogridRegistry.deploy(owner.address);
+    await registry.deployed();
 
-    console.log("MicrogridRegistry:", await registry.getAddress());
+    console.log("MicrogridRegistry:", registry.address);
 
     // deploy marketplace
     const Marketplace = await ethers.getContractFactory("Marketplace");
-    const marketplace = await Marketplace.deploy(await etk.getAddress(), await registry.getAddress());
-    await marketplace.waitForDeployment();
+    const marketplace = await Marketplace.deploy(etk.address, registry.address);
+    await marketplace.deployed();
 
-    console.log("Marketplace:", await marketplace.getAddress());
+    console.log("Marketplace:", marketplace.address);
 
     // connect registry to marketplace
-    await registry.setMarketplaceAddress(await marketplace.getAddress());
+    const tx = await registry.setMarketplaceAddress(marketplace.address);
+    await tx.wait();
 
     console.log("Marketplace linked successfully.");
 
     // Mint ETK
-    const mintAmount = ethers.parseUnits("10000", 18); // 10000 ETK
-    await etk.mint(seller1.address, mintAmount);
-    await etk.mint(seller2.address, mintAmount);
-    await etk.mint(buyer1.address, mintAmount);
-    await etk.mint(buyer2.address, mintAmount);
+    const mintAmount = ethers.utils.parseUnits("10000", 18); // 10000 ETK
+    await (await etk.mint(seller1.address, mintAmount)).wait();
+    await (await etk.mint(seller2.address, mintAmount)).wait();
+    await (await etk.mint(buyer1.address, mintAmount)).wait();
+    await (await etk.mint(buyer2.address, mintAmount)).wait();
 
     console.log("Minted 10000 ETK to sellers and buyers.");
 
     console.log("Deployment completed.");
+    console.log("\n========== Contract Addresses ==========");
+    console.log("EnergyToken       :", etk.address);
+    console.log("MicrogridRegistry :", registry.address);
+    console.log("Marketplace       :", marketplace.address);
+    console.log("========================================");
 }
 
 

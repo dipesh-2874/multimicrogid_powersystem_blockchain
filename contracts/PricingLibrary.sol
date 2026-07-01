@@ -29,7 +29,7 @@ library PricingLibrary{
         uint256 batteryLevel, 
         uint256 maxCapacity, 
         uint256 reservedEnergy
-    ) external pure returns (uint256){
+    ) internal pure returns (uint256){
         uint256 price = BASE_PRICE;
 
         int256 availableEnergy = int256(generation) - int256(demand) - int256(reservedEnergy);
@@ -38,14 +38,14 @@ library PricingLibrary{
         // availability adjustments
         if(availabilityRatio >= 70) price -= HIGH_SURPLUS_DISC;
         else if(availabilityRatio >= 40) price -= MID_SURPLUS_DISC;
-        else if(availabilityRatio >= 20) price += 0;
+        else if(availabilityRatio >= 20) {}
         else if(availabilityRatio >= 0) price += LOW_SURPLUS_PREMIUM;
         else price += DEFICIT_SURPLUS_PREMIUM;
 
         // battery level adjustments
         if(batteryLevel >= 80) price -= HIGH_BATTERY_DISC;
         else if(batteryLevel >= 60) price -= MID_BATTERY_DISC;
-        else if(batteryLevel >= 40) price += 0;
+        else if(batteryLevel >= 40) {}
         else if(batteryLevel >= 20) price += LOW_BATTERY_PREMIUM;
         else price += DEFICIT_BATTERY_PREMIUM;
 
@@ -54,7 +54,7 @@ library PricingLibrary{
         return price;
     }
 
-    function calculateCost(uint256 _price, uint256 _amt) external pure returns (uint256) {
+    function calculateCost(uint256 _price, uint256 _amt) internal pure returns (uint256) {
         require(_amt > 0, "Amount must be greater than 0");
         return (_amt * _price);
     }
