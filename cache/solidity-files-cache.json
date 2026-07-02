@@ -40,6 +40,120 @@
         "EnergyToken"
       ]
     },
+    "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\MicrogridRegistry.sol": {
+      "lastModificationDate": 1783000562593,
+      "contentHash": "356f2e9563701affc6116ba7f802e034",
+      "sourceName": "contracts/MicrogridRegistry.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/access/Ownable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "MicrogridRegistry"
+      ]
+    },
+    "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\Marketplace.sol": {
+      "lastModificationDate": 1782903950182,
+      "contentHash": "a3e63900fc5ce542f78b54234685b01d",
+      "sourceName": "contracts/Marketplace.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/IEnergyToken.sol",
+        "./interfaces/IMicrogridRegistry.sol",
+        "./PricingLibrary.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Marketplace"
+      ]
+    },
+    "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\PricingLibrary.sol": {
+      "lastModificationDate": 1782933294615,
+      "contentHash": "1e96b01dff757c9d943f790d77ae0757",
+      "sourceName": "contracts/PricingLibrary.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "PricingLibrary"
+      ]
+    },
     "D:\\Studies\\code_with_me\\Blockchain project\\node_modules\\@openzeppelin\\contracts\\access\\Ownable.sol": {
       "lastModificationDate": 1782931817214,
       "contentHash": "d3c790edc9ccf808a17c5a6cd13614fd",
@@ -155,42 +269,6 @@
         "Context"
       ]
     },
-    "D:\\Studies\\code_with_me\\Blockchain project\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\IERC20.sol": {
-      "lastModificationDate": 1782931817113,
-      "contentHash": "9261adf6457863de3e9892f51317ec89",
-      "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.4.16"
-      ],
-      "artifacts": [
-        "IERC20"
-      ]
-    },
     "D:\\Studies\\code_with_me\\Blockchain project\\node_modules\\@openzeppelin\\contracts\\interfaces\\draft-IERC6093.sol": {
       "lastModificationDate": 1782931816737,
       "contentHash": "bcc76f4747d56c28c40ae272ef3470a6",
@@ -227,6 +305,42 @@
         "IERC1155Errors",
         "IERC20Errors",
         "IERC721Errors"
+      ]
+    },
+    "D:\\Studies\\code_with_me\\Blockchain project\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\IERC20.sol": {
+      "lastModificationDate": 1782931817113,
+      "contentHash": "9261adf6457863de3e9892f51317ec89",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.16"
+      ],
+      "artifacts": [
+        "IERC20"
       ]
     },
     "D:\\Studies\\code_with_me\\Blockchain project\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\IERC20Metadata.sol": {
@@ -267,44 +381,6 @@
         "IERC20Metadata"
       ]
     },
-    "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\MicrogridRegistry.sol": {
-      "lastModificationDate": 1783000562593,
-      "contentHash": "356f2e9563701affc6116ba7f802e034",
-      "sourceName": "contracts/MicrogridRegistry.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/access/Ownable.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "MicrogridRegistry"
-      ]
-    },
     "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\interfaces\\IEnergyToken.sol": {
       "lastModificationDate": 1782901761588,
       "contentHash": "e269e229dff70eec638916f5833be012",
@@ -341,46 +417,6 @@
         "IEnergyToken"
       ]
     },
-    "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\Marketplace.sol": {
-      "lastModificationDate": 1782903950182,
-      "contentHash": "a3e63900fc5ce542f78b54234685b01d",
-      "sourceName": "contracts/Marketplace.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./interfaces/IEnergyToken.sol",
-        "./interfaces/IMicrogridRegistry.sol",
-        "./PricingLibrary.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Marketplace"
-      ]
-    },
     "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\interfaces\\IMicrogridRegistry.sol": {
       "lastModificationDate": 1782889335206,
       "contentHash": "8879513a5110bd5f113de54a8a68eccf",
@@ -415,42 +451,6 @@
       ],
       "artifacts": [
         "IMicrogridRegistry"
-      ]
-    },
-    "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\PricingLibrary.sol": {
-      "lastModificationDate": 1782933294615,
-      "contentHash": "1e96b01dff757c9d943f790d77ae0757",
-      "sourceName": "contracts/PricingLibrary.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "PricingLibrary"
       ]
     }
   }
