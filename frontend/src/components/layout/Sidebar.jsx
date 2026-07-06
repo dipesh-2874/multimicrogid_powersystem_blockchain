@@ -15,8 +15,8 @@ function Sidebar() {
             path: "/analytics",
         },
         {
-            name: "Settings",
-            path: "/settings",
+            name: "Explore",
+            path: "/explore",
         },
     ];
 

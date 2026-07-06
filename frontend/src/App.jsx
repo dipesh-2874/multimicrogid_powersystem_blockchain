@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Marketplace from "./pages/Marketplace";
 import Analytics from "./pages/Analytics";
-import Settings from "./pages/Settings";
+import Explore from "./pages/Explore";
 
 function App() {
     return (
@@ -13,7 +13,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/marketplace" element={<Marketplace />} />
             <Route path="/analytics" element={<Analytics />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/explore" element={<Explore />} />
         </Routes>
     );
 }
