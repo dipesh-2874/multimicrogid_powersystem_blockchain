@@ -59,12 +59,12 @@ function ActiveOffers({ refresh }) {
                             ?
                             <CancelOffer
                                 offerId={offer.offerId}
-                                onSuccess={() => window.location.reload()}
+                                onSuccess={() => refresh}
                             />
                             :
                             <BuyEnergy
                                 offer={offer}
-                                onSuccess={() => window.location.reload()}
+                                onSuccess={() => refresh}
                             />
                         }
                     </div>
