@@ -20,6 +20,7 @@ function Marketplace() {
             />
             <ActiveOffers
               refresh={refresh}
+              setRefresh={setRefresh}
             />
           </div>
         </Layout>

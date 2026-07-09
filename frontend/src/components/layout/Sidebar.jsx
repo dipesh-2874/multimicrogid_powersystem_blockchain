@@ -21,7 +21,7 @@ function Sidebar() {
     ];
 
     return (
-        <aside className="w-64 mt-20 bg-slate-900 border-r border-slate-700 h-screen fixed">
+        <aside className="w-64 mt-20 bg-slate-900 border-r border-slate-700 h-screen fixed z-1000">
             <div className="p-6 space-y-3">
                 {
                     links.map((link) => (

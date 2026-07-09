@@ -5,7 +5,7 @@ function Navbar() {
     const navigate = useNavigate();
     const { account } = useWallet();
     return (
-        <nav className="h-20 w-full bg-slate-900 border-b border-slate-700 flex items-center justify-between px-8 fixed">
+        <nav className="h-20 w-full bg-slate-900 border-b border-slate-700 flex items-center justify-between px-8 fixed z-1000">
             <h1 className="text-xl font-bold text-cyan-400">
                 ⚡ Energy Trading
             </h1>

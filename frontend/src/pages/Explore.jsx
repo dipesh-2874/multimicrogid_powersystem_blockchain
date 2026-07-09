@@ -6,7 +6,7 @@ function Explore() {
             <Layout>
                 <div className="mt-20 ml-64 flex flex-col gap-5 w-fit">
                     <h1 className="text-3xl font-bold">Explore The Marketplace</h1>
-                    <a target="_blank" href="https://sl1nk.com/91m9m1o">
+                    <a target="_blank" href="https://sepolia.etherscan.io/address/0x12154D276980E5bA55B9c72166d1604Aede768B1">
                         <button className="bg-blue-600 
                 
                             hover:bg-emerald-700 

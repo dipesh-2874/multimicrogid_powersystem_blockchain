@@ -1330,7 +1330,7 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 expect(reverted).to.equal(true);
             });
 
-            it("Should reject purchase after offer expiry", async () => {
+            it("Should automatically expire an offer when purchase is attempted after expiry", async () => {
                 // Register seller
                 await registry.connect(seller1).registerMicrogrid(
                     "Solar Grid",
@@ -1338,7 +1338,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                     88234567,
                     1000
                 );
-                // Seller status
                 await registry.connect(seller1).updateStatus(
                     900,
                     300,
@@ -1350,30 +1349,75 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                     200,
                     8
                 );
-                // Buyer approves Marketplace
+                // Buyer registers
+                await registry.connect(buyer1).registerMicrogrid(
+                    "Buyer Grid",
+                    22345679,
+                    88234568,
+                    1000
+                );
+                await registry.connect(buyer1).updateStatus(
+                    0,
+                    0,
+                    80
+                );
+                // Approve ETK
                 await energyToken.connect(buyer1).approve(
                     marketplace.address,
-                    ethers.utils.parseUnits("10000",18)
+                    ethers.utils.parseUnits("10000", 18)
                 );
-
+                // Expire offer
                 await network.provider.send(
                     "evm_increaseTime",
                     [86401]
                 );
                 await network.provider.send("evm_mine");
-                let reverted = false;
-                try{
-                    await marketplace.connect(buyer1).buyEnergy(
-                        0,
-                        100
-                    );
-                }catch(error){
-                    reverted = true;
-                    expect(error.message).to.include(
-                        "Offer has expired"
-                    );
-                }
-                expect(reverted).to.equal(true);
+                // Attempt purchase
+                await marketplace.connect(buyer1).buyEnergy(
+                    0,
+                    100
+                );
+
+                const offer = await marketplace.offers(0);
+
+                expect(offer.status).to.equal(4); // EXPIRED
+                expect(offer.remainingEnergy.toNumber()).to.equal(0);
+                expect(offer.soldEnergy.toNumber()).to.equal(0);
+                expect(
+                    await marketplace.isOfferOpen(0)
+                ).to.equal(false);
+                expect(
+                    (await marketplace.activeOfferCount(0)).toNumber()
+                ).to.equal(0);
+            });
+
+            it("Should allow calling expireOffer multiple times safely", async () => {
+                await registry.connect(seller1).registerMicrogrid(
+                    "Solar Grid",
+                    22345678,
+                    88234567,
+                    1000
+                );
+                await registry.connect(seller1).updateStatus(
+                    900,
+                    300,
+                    80
+                );
+                await marketplace.connect(seller1).createOffer(
+                    0,
+                    200,
+                    8
+                );
+                await network.provider.send(
+                    "evm_increaseTime",
+                    [86401]
+                );
+                await network.provider.send("evm_mine");
+                await marketplace.expireOffer(0);
+                await marketplace.expireOffer(0);
+                const offer =
+                    await marketplace.offers(0);
+                expect(offer.status).to.equal(4);
             });
 
             it("Should reject purchase with insufficient ETK balance", async () => {

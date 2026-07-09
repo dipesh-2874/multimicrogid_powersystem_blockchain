@@ -115,20 +115,26 @@ contract Marketplace {
     }
 
     function isOfferOpen(uint256 _offerId) public view returns (bool) {
-        return offers[_offerId].status == OfferStatus.ACTIVE || offers[_offerId].status == OfferStatus.PARTIALLY_FILLED;
+        OfferStatus status = offers[_offerId].status;
+
+        return (
+            status == OfferStatus.ACTIVE ||
+            status == OfferStatus.PARTIALLY_FILLED
+        );
     }
 
     function buyEnergy(uint256 _offerId, uint256 _amt) external offerExists(_offerId) {
-        require(isOfferOpen(_offerId), "Offer isn't open");
-        if (block.timestamp >= offers[_offerId].expiresAt) {
-            _closeOffer(_offerId, OfferStatus.EXPIRED);
-            revert("Offer has expired");
+        Offer storage offer = offers[_offerId];
+        if (block.timestamp >= offer.expiresAt) {
+            expireOffer(_offerId);
+            return;
         }
-        require(msg.sender != offers[_offerId].seller, "Seller cannot buy their own energy");
+        require(isOfferOpen(_offerId), "Offer isn't open");
+        require(msg.sender != offer.seller, "Seller cannot buy their own energy");
         require(_amt > 0, "Amount must be greater than 0");
-        require(offers[_offerId].remainingEnergy >= _amt, "Not enough energy available in the offer");
+        require(offer.remainingEnergy >= _amt, "Not enough energy available in the offer");
 
-        uint256 totalCost = PricingLibrary.calculateCost(offers[_offerId].sellingPrice, _amt);
+        uint256 totalCost = PricingLibrary.calculateCost(offer.sellingPrice, _amt);
 
         // Check buyer balance
         require(energyToken.balanceOf(msg.sender) >= totalCost, "Insufficient ETK balance");
@@ -137,33 +143,33 @@ contract Marketplace {
         require(energyToken.allowance(msg.sender, address(this)) >= totalCost, "Approve Marketplace to spend your ETK first");
 
         // Transfer tokens
-        require(energyToken.transferFrom(msg.sender, offers[_offerId].seller, totalCost),"Transfer failed");
+        require(energyToken.transferFrom(msg.sender, offer.seller, totalCost),"Transfer failed");
 
         // update offer
-        offers[_offerId].remainingEnergy -= _amt;
-        offers[_offerId].soldEnergy += _amt;
+        offer.remainingEnergy -= _amt;
+        offer.soldEnergy += _amt;
 
         // release reserved energy
-        registry.decreaseReservedEnergy(offers[_offerId].microgridId, _amt);
+        registry.decreaseReservedEnergy(offer.microgridId, _amt);
 
         registry.transferEnergy(
-            offers[_offerId].microgridId,
+            offer.microgridId,
             msg.sender,
             _amt
         );
 
         // updated time
-        offers[_offerId].updatedAt = block.timestamp;
+        offer.updatedAt = block.timestamp;
 
         // update status
-        if(offers[_offerId].remainingEnergy == 0){
-            activeOfferCount[offers[_offerId].microgridId]--;
-            offers[_offerId].status = OfferStatus.FILLED;
+        if(offer.remainingEnergy == 0){
+            activeOfferCount[offer.microgridId]--;
+            offer.status = OfferStatus.FILLED;
         } else {
-            offers[_offerId].status = OfferStatus.PARTIALLY_FILLED;
+            offer.status = OfferStatus.PARTIALLY_FILLED;
         }
 
-        emit OfferStatusUpdated(_offerId, offers[_offerId].status);
+        emit OfferStatusUpdated(_offerId, offer.status);
         emit EnergyPurchased(_offerId, _amt, msg.sender, totalCost);
     }
 
@@ -173,27 +179,38 @@ contract Marketplace {
         emit OfferCancelled(_offerId,msg.sender);
     }
 
-    function expireOffer(uint256 _offerId) public offerExists(_offerId) {
-        require(offers[_offerId].expiresAt <= block.timestamp, "Offer has not expired yet");
+    function expireOffer(uint256 _offerId) public offerExists(_offerId){
+        require(
+            offers[_offerId].expiresAt <= block.timestamp,
+            "Offer has not expired yet"
+        );
+
+        if (!isOfferOpen(_offerId)) {
+            return;
+        }
         _closeOffer(_offerId, OfferStatus.EXPIRED);
     }
 
-    function _closeOffer(uint256 _offerId, OfferStatus status) internal{
-        require(isOfferOpen(_offerId),"Offer already closed");
-        if (offers[_offerId].remainingEnergy > 0) {
+    function _closeOffer(uint256 _offerId, OfferStatus status) internal {
+        Offer storage offer = offers[_offerId];
+        require(
+            isOfferOpen(_offerId),
+            "Offer already closed"
+        );
+        if (offer.remainingEnergy > 0) {
             registry.decreaseReservedEnergy(
-                offers[_offerId].microgridId,
-                offers[_offerId].remainingEnergy
+                offer.microgridId,
+                offer.remainingEnergy
             );
         }
 
-        offers[_offerId].remainingEnergy = 0;
-        offers[_offerId].status = status;
-        offers[_offerId].updatedAt = block.timestamp;
+        offer.remainingEnergy = 0;
+        offer.status = status;
+        offer.updatedAt = block.timestamp;
 
-        activeOfferCount[offers[_offerId].microgridId]--;
+        activeOfferCount[offer.microgridId]--;
 
-        emit OfferStatusUpdated(_offerId,status);
+        emit OfferStatusUpdated(_offerId, status);
     }
 
     // Get a single offer
