@@ -223,8 +223,7 @@ contract Marketplace {
     function getOfferCount()
         external
         view
-        returns (uint256)
-    {
+        returns (uint256){
         return nextOfferId;
     }
 
@@ -232,8 +231,7 @@ contract Marketplace {
     function getMicrogridOffers(uint256 _microgridId)
         external
         view
-        returns (uint256[] memory)
-    {
+        returns (uint256[] memory){
         return microgridOffers[_microgridId];
     }
 
@@ -241,8 +239,7 @@ contract Marketplace {
     function getSellerOffers(address _seller)
         external
         view
-        returns (uint256[] memory)
-    {
+        returns (uint256[] memory){
         return sellerOffers[_seller];
     }
 }

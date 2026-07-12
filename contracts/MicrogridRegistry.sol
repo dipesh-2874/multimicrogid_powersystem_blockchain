@@ -132,13 +132,6 @@ contract MicrogridRegistry is Ownable {
         return int256(microgrids[_id].energyGenerated) - int256(microgrids[_id].energyDemand) - int256(microgrids[_id].reservedEnergy);
     }
 
-    // doesn't get used anywhere, but can be useful for future features
-    // function hasSurplus(uint256 _id) public view returns(bool){
-    //     require(_id < nextId, "Microgrid does not exist");
-    //     require(microgrids[_id].isActive, "Microgrid is not active");
-    //     return int256(microgrids[_id].energyGenerated) - int256(microgrids[_id].energyDemand) - int256(microgrids[_id].reservedEnergy) > 0;
-    // }
-
     function getAvailableEnergy(uint256 _id) external view returns(uint256){
         require(_id < nextId, "Microgrid does not exist");
         require(microgrids[_id].isActive, "Microgrid is not active");

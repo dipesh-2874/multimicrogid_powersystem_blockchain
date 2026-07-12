@@ -8,10 +8,7 @@ print("=" * 65)
 print("BLOCKCHAIN-BASED MULTI-MICROGRID ENERGY TRADING ANALYTICS")
 print("=" * 65)
 
-# ----------------------------------------------------
 # Basic Statistics
-# ----------------------------------------------------
-
 total_microgrids = len(microgrids)
 total_prosumers = len(microgrids[microgrids["Role"] == "Prosumer"])
 total_consumers = len(microgrids[microgrids["Role"] == "Consumer"])
@@ -24,10 +21,7 @@ total_etk = trades["Total ETK"].sum()
 avg_trade = trades["Energy Traded"].mean()
 avg_price = trades["Price"].mean()
 
-# ----------------------------------------------------
 # Prosumer Utilization
-# ----------------------------------------------------
-
 initial_surplus = microgrids.loc[
     microgrids["Role"] == "Prosumer",
     "Available"
@@ -38,10 +32,7 @@ prosumer_utilization = (
     if initial_surplus > 0 else 0
 )
 
-# ----------------------------------------------------
 # Consumer Satisfaction
-# ----------------------------------------------------
-
 consumer_deficit = abs(
     microgrids.loc[
         microgrids["Role"] == "Consumer",
@@ -56,10 +47,7 @@ consumer_satisfaction = (
 
 consumer_satisfaction = min(consumer_satisfaction, 100)
 
-# ----------------------------------------------------
 # Market Efficiency
-# ----------------------------------------------------
-
 market_efficiency = (
     total_energy /
     min(initial_surplus, consumer_deficit)
@@ -68,10 +56,7 @@ market_efficiency = (
 
 market_efficiency = min(market_efficiency, 100)
 
-# ----------------------------------------------------
 # Output
-# ----------------------------------------------------
-
 print(f"Total Microgrids          : {total_microgrids}")
 print(f"Prosumers                : {total_prosumers}")
 print(f"Consumers                : {total_consumers}")

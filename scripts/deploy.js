@@ -6,9 +6,7 @@ async function main() {
 
     console.log("Deployer:", owner.address);
 
-    // ----------------------------
     // Deploy EnergyToken
-    // ----------------------------
     const EnergyToken = await ethers.getContractFactory("EnergyToken");
 
     const energyToken = await EnergyToken.deploy(owner.address);
@@ -17,9 +15,7 @@ async function main() {
 
     console.log("EnergyToken:", energyToken.address);
 
-    // ----------------------------
     // Deploy MicrogridRegistry
-    // ----------------------------
     const Registry = await ethers.getContractFactory("MicrogridRegistry");
 
     const registry = await Registry.deploy(owner.address);
@@ -28,9 +24,7 @@ async function main() {
 
     console.log("MicrogridRegistry:", registry.address);
 
-    // ----------------------------
     // Deploy Marketplace
-    // ----------------------------
     const Marketplace = await ethers.getContractFactory("Marketplace");
 
     const marketplace = await Marketplace.deploy(
@@ -42,9 +36,7 @@ async function main() {
 
     console.log("Marketplace:", marketplace.address);
 
-    // ----------------------------
     // Link Marketplace
-    // ----------------------------
     await registry.setMarketplaceAddress(
         marketplace.address
     );
